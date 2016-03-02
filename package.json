@@ -1,0 +1,22 @@
+{
+  "name": "Ubi",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts":{
+    "start": "watchify src/main.jsx -v -t [ babelify --presets [ react ] ] -o ./public/js/main.js"
+  },
+  "dependencies": {
+    "babelify": "~7.2.0",
+    "react": "~0.14.7",
+    "browserify": "~13.0.0",
+    "react-dom": "~0.14.7",
+    "watchify": "~3.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause"
+}
