@@ -12,6 +12,7 @@ var Map = ReactGoogleMaps.Map;
 var LatLng = GoogleMapsAPI.LatLng;
 var Marker = ReactGoogleMaps.Marker;
 var infowindow = new google.maps.InfoWindow();
+//var Box = require();
 //Component
 var Maps = React.createClass({
   //Default props or variables to set into the map
@@ -46,7 +47,7 @@ var Maps = React.createClass({
       map = new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions);
       this.setState({map: map});
       this.getData();
-      setInterval(this.changeCamera, this.props.cameraInterval);
+    //  setInterval(this.changeCamera, this.props.cameraInterval);
   },
   getData: function(){
     var markerList = [], coordinatesList=[];
@@ -130,9 +131,10 @@ var Maps = React.createClass({
   changeCamera: function(){
     var map = this.state.map;
     var counter = this.state.counter;
+
     map.setCenter(new google.maps.LatLng(this.state.positions[counter][0],this.state.positions[counter][1]));
-    console.log(this.state.positions[counter][0],this.state.positions[counter][1]);
     map.setZoom(this.props.modifiedZoom);
+
     counter++;
     if(counter >= this.state.positions.length){
         this.setState({counter: 0});
@@ -143,7 +145,6 @@ var Maps = React.createClass({
   //Render
   render: function () {
       setInterval(this.getUpdatedData, this.props.interval);
-
         return (
             <div className='map-gic'></div>
         );
