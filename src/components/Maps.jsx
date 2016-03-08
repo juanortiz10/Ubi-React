@@ -7,12 +7,13 @@ date: 03/March/2016
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactGoogleMaps = require('react-google-maps');
+var Modal = require('react-modal');
 var GoogleMapsAPI = window.google.maps;
 var Map = ReactGoogleMaps.Map;
 var LatLng = GoogleMapsAPI.LatLng;
 var Marker = ReactGoogleMaps.Marker;
 var infowindow = new google.maps.InfoWindow();
-//var Box = require();
+
 //Component
 var Maps = React.createClass({
   //Default props or variables to set into the map
@@ -22,15 +23,16 @@ var Maps = React.createClass({
       info: '',
       counter: 0,
       map: null,
-      positions: []
+      positions: [],
+      modalIsOpen: false
     };
   },
   getDefaultProps: function () {
       return {
-          initialZoom: 6,
+          initialZoom: 4,
           modifiedZoom: 15,
-          latitude: 22.133977,
-          longitude: -101.448995,
+          latitude: 8.345513,
+          longitude: -81.359785,
           source: 'http://192.168.11.148:8000/point/all',
           interval : 60000,
           cameraInterval: 10000
@@ -41,9 +43,9 @@ var Maps = React.createClass({
       var mapOptions = {
           center: this.mapCenterLatLng(),
           zoom: this.props.initialZoom,
+          mapTypeId: google.maps.MapTypeId.SATELLITE,
           disableDefaultUI: true
       },
-
       map = new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions);
       this.setState({map: map});
       this.getData();
@@ -57,12 +59,20 @@ var Maps = React.createClass({
             var lng = result[i].longitude;
             var coordinates = [lat,lng];
             var hospital = result[i].name;
-            var tickets = result[i].indicator;
+            var tickets = result[i].indicator_count;
             var info = "<h2>"+ result[i].name + "</h2>" +
                         "<p><h5>Dirección:</h5> "+ result[i].address +" </p> " +
                         "<p><h5>Contacto: </h5>" + result[i].contact +" </p> " +
                         "<p><h5>Teléfono: </h5>" + result[i].phone + " </p> " +
-                        "<p><h5>Tickets: </h5>" + result[i].indicator + " </p> ";
+                        "<p><h5>Tickets: </h5>" + result[i].indicator_count + " </p> "+
+                        "<ul>";
+
+            if(result[i].indicator_count != 0){
+                for(var j = 0; j < result[i].indicator_count; j++){
+                    info += "<li><a href="+result[i].indicator_detail[j].url+">"+result[i].indicator_detail[j].description+"</a></li>"
+                }
+            }
+            info += "</ul>";
             markerList.push(this.createMarker(lat,lng, hospital,this.state.map, info, tickets));
             coordinatesList.push(coordinates);
         }
@@ -73,12 +83,19 @@ var Maps = React.createClass({
     this.serverRequest = $.get(this.props.source, function (result) {
         var markerList = [];
         for(var i = 0; i < result.length; i++){
-            var tickets = result[i].indicator;
+            var tickets = result[i].indicator_count;
             var info = "<h2>"+ result[i].name + "</h2>" +
                         "<p><h5>Dirección:</h5> "+ result[i].address +" </p> " +
                         "<p><h5>Contacto: </h5>" + result[i].contact +" </p> " +
                         "<p><h5>Teléfono: </h5>" + result[i].phone + " </p> "  +
-                        "<p><h5>Tickets: </h5>" + result[i].indicator + " </p> ";
+                        "<p><h5>Tickets: </h5>" + result[i].indicator_count + " </p> "+
+                        "<ul>";
+            if(result[i].indicator_count != 0){
+              for(var j = 0; j <= result[i].indicator_count; j++){
+                  info += "<li><a href="+result[i].indicator_detail[j].url+">"+result[i].indicator_detail[j].description+"</a></li>"
+              }
+            }
+            info += "</ul>";
             markerList.push(this.updateMarkers(this.state.map, info, i, tickets));
         }
         this.setState({markers: markerList});
@@ -142,6 +159,7 @@ var Maps = React.createClass({
         this.setState({counter: counter});
     }
   },
+
   //Render
   render: function () {
       setInterval(this.getUpdatedData, this.props.interval);
