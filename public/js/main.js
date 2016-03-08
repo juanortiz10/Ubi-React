@@ -25022,6 +25022,25 @@ module.exports = require('./lib/React');
 },{"./lib/React":93}],226:[function(require,module,exports){
 var React = require('react');
 var Modal = require('react-modal');
+var transitionsConfig, minsConfig;
+var selectValueTran;
+var selectValueMin = 0;
+
+if (document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "ON") {
+  transitionsConfig = "ON";
+  selectValueTran = "1";
+} else {
+  transitionsConfig = "OFF";
+  selectValueTran = "0";
+}
+
+if (document.cookie.replace(/(?:(?:^|.*;\s*)minutes\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "0") {
+  selectValueMin = "0";
+} else if (document.cookie.replace(/(?:(?:^|.*;\s*)minutes\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "1") {
+  selectValueMin = "1";
+} else if (document.cookie.replace(/(?:(?:^|.*;\s*)minutes\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "2") {
+  selectValueMin = "2";
+}
 
 var Box = React.createClass({
   displayName: 'Box',
@@ -25029,8 +25048,9 @@ var Box = React.createClass({
   getInitialState: function () {
     return {
       modalIsOpen: false,
-      transitionsValue: '',
-      updateValue: ''
+      transitionsValue: transitionsConfig,
+      selectStatusTransitions: selectValueTran,
+      selectStatusMinutes: selectValueMin
     };
   },
   openModal: function () {
@@ -25040,15 +25060,30 @@ var Box = React.createClass({
     this.setState({ modalIsOpen: false });
   },
   save: function (event) {
-    localStorage.setItem("transitions", this.state.transitionsValue);
-    localStorage.setItem("update", this.state.updateValue);
+    document.cookie = "transitions=" + this.state.transitionsValue;
+    document.cookie = "minutes= " + this.state.minutesValue;
     alert("Guardado Correctamente");
+    location.reload();
   },
   onChangeTransitions: function (event) {
-    this.setState({ transitionsValue: event.target.value });
+    var value;
+    if (event.target.value == 0) {
+      value = "OFF";
+    } else {
+      value = "ON";
+    }
+    this.setState({ transitionsValue: value });
   },
-  onChangeUpdate: function (event) {
-    this.setState({ updateValue: event.target.value });
+  onChangeMinutes: function (event) {
+    var value;
+    if (event.target.value == 0) {
+      value = "0";
+    } else if (event.target.value == 1) {
+      value = "1";
+    } else if (event.target.value == 2) {
+      value = "2";
+    }
+    this.setState({ minutesValue: value });
   },
   render: function () {
     var style = {
@@ -25084,45 +25119,40 @@ var Box = React.createClass({
           ),
           React.createElement(
             'select',
-            { className: 'selectConfigs', onChange: this.onChangeTransitions },
+            { className: 'selectConfigs', onChange: this.onChangeTransitions, defaultValue: this.state.selectStatusTransitions },
             React.createElement(
               'option',
               { value: '0' },
-              'Activada'
+              'Desactivada'
             ),
             React.createElement(
               'option',
               { value: '1' },
-              'Desactivada'
+              'Activada'
             )
           ),
           React.createElement(
             'h3',
             null,
-            'Actualizar'
+            'Intervalo'
           ),
           React.createElement(
             'select',
-            { className: 'selectConfigs', onChange: this.onChangeUpdate },
+            { className: 'selectConfigs', onChange: this.onChangeMinutes, defaultValue: this.state.selectStatusMinutes },
             React.createElement(
               'option',
               { value: '0' },
-              '5  Mins.'
+              '1 Minuto'
             ),
             React.createElement(
               'option',
               { value: '1' },
-              '10 Mins.'
+              '5 Minutos'
             ),
             React.createElement(
               'option',
               { value: '2' },
-              '15 Mins.'
-            ),
-            React.createElement(
-              'option',
-              { value: '3' },
-              '30 Mins.'
+              '10 Minutos'
             )
           ),
           React.createElement(
@@ -25173,6 +25203,16 @@ var Map = ReactGoogleMaps.Map;
 var LatLng = GoogleMapsAPI.LatLng;
 var Marker = ReactGoogleMaps.Marker;
 var infowindow = new google.maps.InfoWindow();
+var isTransition = document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+var howManyMinutes = document.cookie.replace(/(?:(?:^|.*;\s*)minutes\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+if (howManyMinutes == "0") {
+  howManyMinutes = 60000;
+} else if (howManyMinutes == "1") {
+  howManyMinutes = 300000;
+} else if (howManyMinutes == "2") {
+  howManyMinutes = 600000;
+}
 
 //Component
 var Maps = React.createClass({
@@ -25186,7 +25226,8 @@ var Maps = React.createClass({
       counter: 0,
       map: null,
       positions: [],
-      modalIsOpen: false
+      modalIsOpen: false,
+      moveCamera: isTransition
     };
   },
   getDefaultProps: function () {
@@ -25197,7 +25238,7 @@ var Maps = React.createClass({
       longitude: -81.359785,
       source: 'http://192.168.11.148:8000/point/all',
       interval: 60000,
-      cameraInterval: 10000
+      cameraInterval: howManyMinutes
     };
   },
   //This will run when DOM be ready
@@ -25205,13 +25246,15 @@ var Maps = React.createClass({
     var mapOptions = {
       center: this.mapCenterLatLng(),
       zoom: this.props.initialZoom,
-      mapTypeId: google.maps.MapTypeId.SATELLITE,
       disableDefaultUI: true
     },
         map = new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions);
     this.setState({ map: map });
     this.getData();
-    //  setInterval(this.changeCamera, this.props.cameraInterval);
+
+    if (this.state.moveCamera == "ON") {
+      setInterval(this.changeCamera, this.props.cameraInterval);
+    }
   },
   getData: function () {
     var markerList = [],
@@ -25227,7 +25270,7 @@ var Maps = React.createClass({
 
         if (result[i].indicator_count != 0) {
           for (var j = 0; j < result[i].indicator_count; j++) {
-            info += "<li><a href=" + result[i].indicator_detail[j].url + ">" + result[i].indicator_detail[j].description + "</a></li>";
+            info += "<li><a href=" + result[i].indicator_detail[j].url + " target='_blank'>" + result[i].indicator_detail[j].description + "</a></li>";
           }
         }
         info += "</ul>";

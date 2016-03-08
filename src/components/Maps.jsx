@@ -13,6 +13,16 @@ var Map = ReactGoogleMaps.Map;
 var LatLng = GoogleMapsAPI.LatLng;
 var Marker = ReactGoogleMaps.Marker;
 var infowindow = new google.maps.InfoWindow();
+var isTransition = document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+var howManyMinutes = document.cookie.replace(/(?:(?:^|.*;\s*)minutes\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+if(howManyMinutes == "0"){
+  howManyMinutes = 60000;
+}else if(howManyMinutes == "1"){
+  howManyMinutes = 300000;
+}else if(howManyMinutes == "2"){
+  howManyMinutes = 600000;
+}
 
 //Component
 var Maps = React.createClass({
@@ -24,7 +34,8 @@ var Maps = React.createClass({
       counter: 0,
       map: null,
       positions: [],
-      modalIsOpen: false
+      modalIsOpen: false,
+      moveCamera: isTransition
     };
   },
   getDefaultProps: function () {
@@ -35,7 +46,7 @@ var Maps = React.createClass({
           longitude: -81.359785,
           source: 'http://192.168.11.148:8000/point/all',
           interval : 60000,
-          cameraInterval: 10000
+          cameraInterval: howManyMinutes
       };
   },
   //This will run when DOM be ready
@@ -43,13 +54,15 @@ var Maps = React.createClass({
       var mapOptions = {
           center: this.mapCenterLatLng(),
           zoom: this.props.initialZoom,
-          mapTypeId: google.maps.MapTypeId.SATELLITE,
           disableDefaultUI: true
       },
       map = new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions);
       this.setState({map: map});
       this.getData();
-    //  setInterval(this.changeCamera, this.props.cameraInterval);
+
+      if(this.state.moveCamera == "ON"){
+        setInterval(this.changeCamera, this.props.cameraInterval);
+      }
   },
   getData: function(){
     var markerList = [], coordinatesList=[];
@@ -69,7 +82,7 @@ var Maps = React.createClass({
 
             if(result[i].indicator_count != 0){
                 for(var j = 0; j < result[i].indicator_count; j++){
-                    info += "<li><a href="+result[i].indicator_detail[j].url+">"+result[i].indicator_detail[j].description+"</a></li>"
+                    info += "<li><a href="+result[i].indicator_detail[j].url+" target='_blank'>"+result[i].indicator_detail[j].description+"</a></li>"
                 }
             }
             info += "</ul>";
