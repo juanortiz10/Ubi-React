@@ -1,8 +1,8 @@
 var React = require('react');
 var Modal = require('react-modal');
 var transitionsConfig, minsConfig;
-var selectValueTran
-var selectValueMin = 0;
+var selectValueTran;
+var selectValueMin = "0";
 
 if( document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "ON"){
     transitionsConfig = "ON";
@@ -38,7 +38,6 @@ var Box = React.createClass({
   save: function(event){
     document.cookie = "transitions="+this.state.transitionsValue;
     document.cookie = "minutes= "+this.state.minutesValue;
-    alert("Guardado Correctamente");
     location.reload();
   },
   onChangeTransitions:function(event){

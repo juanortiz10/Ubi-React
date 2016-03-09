@@ -15,13 +15,14 @@ var Marker = ReactGoogleMaps.Marker;
 var infowindow = new google.maps.InfoWindow();
 var isTransition = document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 var howManyMinutes = document.cookie.replace(/(?:(?:^|.*;\s*)minutes\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+var newHowManyMinutes = 60000;
 
 if(howManyMinutes == "0"){
-  howManyMinutes = 60000;
+  newHowManyMinutes = 60000;
 }else if(howManyMinutes == "1"){
-  howManyMinutes = 300000;
+  newHowManyMinutes = 300000;
 }else if(howManyMinutes == "2"){
-  howManyMinutes = 600000;
+  newHowManyMinutes = 600000;
 }
 
 //Component
@@ -46,7 +47,7 @@ var Maps = React.createClass({
           longitude: -81.359785,
           source: 'http://192.168.11.148:8000/point/all',
           interval : 60000,
-          cameraInterval: howManyMinutes
+          cameraInterval: newHowManyMinutes
       };
   },
   //This will run when DOM be ready
