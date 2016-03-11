@@ -65,11 +65,36 @@ footer div img{
 
 div.container-fixed{
   position: fixed;
-  margin-top: -10%;
+  margin-top: -32%;
   margin-left: 1%;
-  padding: 10px;
+  padding: 8px;
+  text-align: center;
   background-color: #F5F5F5;
 }
+
+div.container-fixed-emoji{
+  position: fixed;
+  margin-top: -25%;
+  margin-left: 1%;
+  padding: 8px;
+  text-align: center;
+  background-color: #F5F5F5;
+}
+
+div.container-button-fixed{
+  position: fixed;
+  margin-top: -10%;
+  margin-left: 1%;
+  padding: 8px;
+  text-align: center;
+  background-color: #F5F5F5;
+  transition: background-color 0.5s ease;
+}
+
+div.container-button-fixed:hover{
+  background-color: #A4D5EB;
+}
+
 footer img{
   width: 40px;
   height: 40px;
@@ -112,6 +137,14 @@ h5{
   font-family: 'Raleway', sans-serif;
 }
 
+img.colorBox, img.img_emoji{
+  width: 22px;
+  height: 22px;
+  margin-bottom: 6px;
+  cursor: help;
+}
+
+
 img#settings{
   position: fixed;
   z-index: 1;
@@ -119,11 +152,10 @@ img#settings{
   width: 60px;
   height: 60px;
   cursor: pointer;
-  transition: all 0.5s ease;
 }
 
 i{
-  font-size: 1em;
+  font-size: 1.6em;
 }
 
 img#settings:hover{
@@ -157,4 +189,64 @@ select.selectConfigs{
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 200px;
+}
+
+@media (min-width: 1000px) and (max-width: 1130px) {
+  div.container-fixed{
+    margin-top: -40%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -30%;
+  }
+  div.container-button-fixed{
+    margin-top: -12%;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 998px) {
+  div.container-fixed{
+    margin-top: -50%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -40%;
+  }
+  div.container-button-fixed{
+    margin-top: -22%;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 887px) {
+  div.container-fixed{
+    margin-top: -50%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -38%;
+  }
+  div.container-button-fixed{
+    margin-top: -15%;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 899px) {
+  div.container-fixed{
+    margin-top: -50%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -38%;
+  }
+  div.container-button-fixed{
+    margin-top: -15%;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 699px) {
+  div.container-fixed{
+    margin-top: -60%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -45%;
+  }
+  div.container-button-fixed{
+    margin-top: -22%;
+  }
 }

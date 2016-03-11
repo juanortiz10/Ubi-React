@@ -3,6 +3,8 @@ var Modal = require('react-modal');
 var transitionsConfig, minsConfig;
 var selectValueTran;
 var selectValueMin = "0";
+var ColorBox = require('./ColorBox.jsx');
+var EmojiBox = require('./EmojiBox.jsx');
 
 if( document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "ON"){
     transitionsConfig = "ON";
@@ -62,16 +64,26 @@ var Box = React.createClass({
   },
   render: function(){
     var style= {
-      fontSize : '1.5em',
+      fontSize : '1.6em',
       color    : '#454545',
       cursor   : 'pointer'
     };
     return(
       <div>
-        <div className="container-fixed" onClick={this.openModal}>
-          <i className="fa fa-cog" style={style}></i>
+        <div className="container-fixed">
+          <ColorBox route="imgs/yellow.jpg" info="2 ó mas Tickets"/>
+          <ColorBox route="imgs/red.png" info="Mas de 3 Tickets"/>
+          <ColorBox route="imgs/blue.png" info="Sin Tickets"/>
         </div>
-
+        <div className="container-fixed-emoji">
+          <EmojiBox route="icons/cues.png" info="Sin Información"/>
+          <EmojiBox route="icons/norefe.png" info="No Referenciable"/>
+          <EmojiBox route="icons/proceso.png" info="En Proceso"/>
+          <EmojiBox route="icons/refe.png" info="Referenciable"/>
+        </div>
+        <div className="container-button-fixed">
+          <i className="fa fa-cog" style={style} onClick={this.openModal}></i>
+        </div>
         <Modal
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.closeModal}>

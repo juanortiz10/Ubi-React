@@ -25025,6 +25025,8 @@ var Modal = require('react-modal');
 var transitionsConfig, minsConfig;
 var selectValueTran;
 var selectValueMin = "0";
+var ColorBox = require('./ColorBox.jsx');
+var EmojiBox = require('./EmojiBox.jsx');
 
 if (document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "ON") {
   transitionsConfig = "ON";
@@ -25086,7 +25088,7 @@ var Box = React.createClass({
   },
   render: function () {
     var style = {
-      fontSize: '1.5em',
+      fontSize: '1.6em',
       color: '#454545',
       cursor: 'pointer'
     };
@@ -25095,8 +25097,23 @@ var Box = React.createClass({
       null,
       React.createElement(
         'div',
-        { className: 'container-fixed', onClick: this.openModal },
-        React.createElement('i', { className: 'fa fa-cog', style: style })
+        { className: 'container-fixed' },
+        React.createElement(ColorBox, { route: 'imgs/yellow.jpg', info: '2 ó mas Tickets' }),
+        React.createElement(ColorBox, { route: 'imgs/red.png', info: 'Mas de 3 Tickets' }),
+        React.createElement(ColorBox, { route: 'imgs/blue.png', info: 'Sin Tickets' })
+      ),
+      React.createElement(
+        'div',
+        { className: 'container-fixed-emoji' },
+        React.createElement(EmojiBox, { route: 'icons/cues.png', info: 'Sin Información' }),
+        React.createElement(EmojiBox, { route: 'icons/norefe.png', info: 'No Referenciable' }),
+        React.createElement(EmojiBox, { route: 'icons/proceso.png', info: 'En Proceso' }),
+        React.createElement(EmojiBox, { route: 'icons/refe.png', info: 'Referenciable' })
+      ),
+      React.createElement(
+        'div',
+        { className: 'container-button-fixed' },
+        React.createElement('i', { className: 'fa fa-cog', style: style, onClick: this.openModal })
       ),
       React.createElement(
         Modal,
@@ -25186,7 +25203,41 @@ var Box = React.createClass({
 
 module.exports = Box;
 
-},{"react":225,"react-modal":56}],227:[function(require,module,exports){
+},{"./ColorBox.jsx":227,"./EmojiBox.jsx":228,"react":225,"react-modal":56}],227:[function(require,module,exports){
+var React = require('react');
+
+var ColorBox = React.createClass({
+  displayName: "ColorBox",
+
+  render: function () {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement("img", { src: this.props.route, "data-toggle": "tooltip", title: this.props.info, className: "colorBox" })
+    );
+  }
+});
+
+module.exports = ColorBox;
+
+},{"react":225}],228:[function(require,module,exports){
+var React = require('react');
+
+var EmojiBox = React.createClass({
+  displayName: "EmojiBox",
+
+  render: function () {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement("img", { className: "img_emoji", src: this.props.route, "data-toggle": "tooltip", title: this.props.info })
+    );
+  }
+});
+
+module.exports = EmojiBox;
+
+},{"react":225}],229:[function(require,module,exports){
 /*
 name: Maps
 author: Juan Ortiz Jr.
@@ -25207,165 +25258,229 @@ var howManyMinutes = document.cookie.replace(/(?:(?:^|.*;\s*)minutes\s*\=\s*([^;
 var newHowManyMinutes = 60000;
 
 if (howManyMinutes == "0") {
-  newHowManyMinutes = 60000;
+    newHowManyMinutes = 60000;
 } else if (howManyMinutes == "1") {
-  newHowManyMinutes = 300000;
+    newHowManyMinutes = 300000;
 } else if (howManyMinutes == "2") {
-  newHowManyMinutes = 600000;
+    newHowManyMinutes = 600000;
 }
 
 //Component
 var Maps = React.createClass({
-  displayName: 'Maps',
+    displayName: 'Maps',
 
-  //Default props or variables to set into the map
-  getInitialState: function () {
-    return {
-      markers: [],
-      info: '',
-      counter: 0,
-      map: null,
-      positions: [],
-      modalIsOpen: false,
-      moveCamera: isTransition
-    };
-  },
-  getDefaultProps: function () {
-    return {
-      initialZoom: 4,
-      modifiedZoom: 15,
-      latitude: 8.345513,
-      longitude: -81.359785,
-      source: 'http://192.168.11.148:8000/point/all',
-      interval: 60000,
-      cameraInterval: newHowManyMinutes
-    };
-  },
-  //This will run when DOM be ready
-  componentDidMount: function (rootNode) {
-    var mapOptions = {
-      center: this.mapCenterLatLng(),
-      zoom: this.props.initialZoom,
-      disableDefaultUI: true
+    //Default props or variables to set into the map
+    getInitialState: function () {
+        return {
+            markers: [],
+            info: '',
+            counter: 0,
+            map: null,
+            positions: [],
+            modalIsOpen: false,
+            moveCamera: isTransition
+        };
     },
-        map = new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions);
-    this.setState({ map: map });
-    this.getData();
+    getDefaultProps: function () {
+        return {
+            initialZoom: 3,
+            modifiedZoom: 15,
+            latitude: 8.345513,
+            longitude: -81.359785,
+            source: 'http://148.244.75.41:7080/point/all',
+            interval: 30000,
+            cameraInterval: newHowManyMinutes
+        };
+    },
+    //This will run when DOM be ready
+    componentDidMount: function (rootNode) {
+        var mapOptions = {
+            center: this.mapCenterLatLng(),
+            zoom: this.props.initialZoom,
+            disableDefaultUI: true
+        },
+            map = new google.maps.Map(ReactDOM.findDOMNode(this), mapOptions);
+        this.setState({ map: map });
+        this.getData();
 
-    if (this.state.moveCamera == "ON") {
-      setInterval(this.changeCamera, this.props.cameraInterval);
-    }
-  },
-  getData: function () {
-    var markerList = [],
-        coordinatesList = [];
-    this.serverRequest = $.get(this.props.source, function (result) {
-      for (var i = 0; i < result.length; i++) {
-        var lat = result[i].latitude;
-        var lng = result[i].longitude;
-        var coordinates = [lat, lng];
-        var hospital = result[i].name;
-        var tickets = result[i].indicator_count;
-        var info = "<h2>" + result[i].name + "</h2>" + "<p><h5>Dirección:</h5> " + result[i].address + " </p> " + "<p><h5>Contacto: </h5>" + result[i].contact + " </p> " + "<p><h5>Teléfono: </h5>" + result[i].phone + " </p> " + "<p><h5>Tickets: </h5>" + result[i].indicator_count + " </p> " + "<ul>";
-
-        if (result[i].indicator_count != 0) {
-          for (var j = 0; j < result[i].indicator_count; j++) {
-            info += "<li><a href=" + result[i].indicator_detail[j].url + " target='_blank'>" + result[i].indicator_detail[j].description + "</a></li>";
-          }
+        if (this.state.moveCamera == "ON") {
+            setInterval(this.changeCamera, this.props.cameraInterval);
+        } else {
+            setInterval(this.getUpdatedData, this.props.interval);
         }
-        info += "</ul>";
-        markerList.push(this.createMarker(lat, lng, hospital, this.state.map, info, tickets));
-        coordinatesList.push(coordinates);
-      }
-      this.setState({ markers: markerList, positions: coordinatesList });
-    }.bind(this));
-  },
-  getUpdatedData: function () {
-    this.serverRequest = $.get(this.props.source, function (result) {
-      var markerList = [];
-      for (var i = 0; i < result.length; i++) {
-        var tickets = result[i].indicator_count;
-        var info = "<h2>" + result[i].name + "</h2>" + "<p><h5>Dirección:</h5> " + result[i].address + " </p> " + "<p><h5>Contacto: </h5>" + result[i].contact + " </p> " + "<p><h5>Teléfono: </h5>" + result[i].phone + " </p> " + "<p><h5>Tickets: </h5>" + result[i].indicator_count + " </p> " + "<ul>";
-        if (result[i].indicator_count != 0) {
-          for (var j = 0; j <= result[i].indicator_count; j++) {
-            info += "<li><a href=" + result[i].indicator_detail[j].url + ">" + result[i].indicator_detail[j].description + "</a></li>";
-          }
+    },
+    getData: function () {
+        var markerList = [],
+            coordinatesList = [];
+        this.serverRequest = $.get(this.props.source, function (result) {
+            for (var i = 0; i < result.length; i++) {
+                var lat = result[i].latitude;
+                var lng = result[i].longitude;
+                var coordinates = [lat, lng];
+                var status = result[i].overall_status;
+                var hospital = result[i].name;
+                var tickets = result[i].indicator_count;
+                var info = "<h2>" + result[i].name + "</h2>";
+                if (!result[i].address.includes("-")) info += "<p><h5>Dirección:</h5> " + result[i].address + " </p> ";
+                if (!result[i].contact.includes("-")) info += "<p><h5>Contacto: </h5>" + result[i].contact + " </p> ";
+                if (!result[i].phone.includes("-")) info += "<p><h5>Teléfono: </h5>" + result[i].phone + " </p> ";
+
+                info += "<p><h5>Tickets: </h5>" + result[i].indicator_count + " </p> ";
+                info += "<ul>";
+                if (result[i].indicator_count != 0) {
+                    for (var j = 0; j < result[i].indicator_count; j++) {
+                        info += "<li><a href=" + result[i].indicator_detail[j].url + " target='_blank'>" + result[i].indicator_detail[j].description + "</a></li>";
+                    }
+                }
+                info += "</ul>";
+                markerList.push(this.createMarker(lat, lng, hospital, this.state.map, info, tickets, status));
+                coordinatesList.push(coordinates);
+            }
+            this.setState({ markers: markerList, positions: coordinatesList });
+        }.bind(this));
+    },
+    getUpdatedData: function () {
+        this.serverRequest = $.get(this.props.source, function (result) {
+            var markerList = [];
+
+            for (var i = 0; i < result.length; i++) {
+                var tickets = result[i].indicator_count;
+                var status = result[i].overall_status;
+                var info = "<h2>" + result[i].name + "</h2>";
+                if (!result[i].address.includes("-")) info += "<p><h5>Dirección:</h5> " + result[i].address + " </p> ";
+                if (!result[i].contact.includes("-")) info += "<p><h5>Contacto: </h5>" + result[i].contact + " </p> ";
+                if (!result[i].phone.includes("-")) info += "<p><h5>Teléfono: </h5>" + result[i].phone + " </p> ";
+
+                info += "<p><h5>Tickets: </h5>" + result[i].indicator_count + " </p> ";
+                info += "<ul>";
+
+                for (var j = 0; j < result[i].indicator_count; j++) {
+                    info += "<li><a href=" + result[i].indicator_detail[j].url + ">" + result[i].indicator_detail[j].description + "</a></li>";
+                }
+
+                info += "</ul>";
+                markerList.push(this.updateMarkers(this.state.map, info, i, tickets, status));
+            }
+            this.setState({ markers: markerList });
+        }.bind(this));
+    },
+    //Function that creates a marker on the map
+    createMarker: function (lat, lng, hospital, map, info, tickets, status) {
+        var iconRoute = "";
+        if (tickets == 0) {
+            if (status == "proceso") {
+                iconRoute = "icons/blue_proceso.png";
+            } else if (status == "referenciable") {
+                iconRoute = "icons/blue_refe.png";
+            } else if (status == "?" || status == "") {
+                iconRoute = "icons/blue_cues.png";
+            } else if (status == "NO") {
+                iconRoute = "icons/blue_norefe.png";
+            }
+        } else if (tickets <= 2) {
+            if (status == "proceso") {
+                iconRoute = "icons/yellow_proceso.png";
+            } else if (status == "referenciable") {
+                iconRoute = "icons/yellow_refe.png";
+            } else if (status == "?" || status == "") {
+                iconRoute = "icons/yellow_cues.png";
+            } else if (status == "NO") {
+                iconRoute = "icons/yellow_norefe.png";
+            }
+        } else if (tickets >= 3) {
+            if (status == "proceso") {
+                iconRoute = "icons/red_proceso.png";
+            } else if (status == "referenciable") {
+                iconRoute = "icons/red_refe.png";
+            } else if (status == "?" || status == "") {
+                iconRoute = "icons/red_cues.png";
+            } else if (status == "NO") {
+                iconRoute = "icons/red_norefe.png";
+            }
         }
-        info += "</ul>";
-        markerList.push(this.updateMarkers(this.state.map, info, i, tickets));
-      }
-      this.setState({ markers: markerList });
-    }.bind(this));
-  },
-  //Function that creates a marker on the map
-  createMarker: function (lat, lng, hospital, map, info, tickets) {
-    var iconRoute = "";
-    if (tickets == 0) {
-      iconRoute = "icons/blue.png";
-    } else if (tickets <= 2) {
-      iconRoute = "icons/yellow.png";
-    } else if (tickets >= 3) {
-      iconRoute = "icons/red.png";
-    }
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(lat, lng),
-      title: hospital,
-      icon: iconRoute,
-      animation: google.maps.Animation.DROP,
-      map: map
-    });
-    marker.addListener('click', function () {
-      infowindow.setContent(info);
-      infowindow.open(map, marker);
-    });
-    return marker;
-  },
-  //Function that returns latitude and longitude google coordinates
-  mapCenterLatLng: function () {
-    return new google.maps.LatLng(this.props.latitude, this.props.longitude);
-  },
-  updateMarkers: function (map, info, position, tickets) {
-    var mark = this.state.markers[position];
-    var iconRoute = "";
-    if (tickets == 0) {
-      iconRoute = "icons/blue.png";
-    } else if (tickets <= 2) {
-      iconRoute = "icons/yellow.png";
-    } else if (tickets >= 3) {
-      iconRoute = "icons/red.png";
-    }
-    mark.setIcon(iconRoute);
-    mark.addListener('click', function () {
-      infowindow.setContent(info);
-      infowindow.open(map, mark);
-    });
-    return mark;
-  },
-  changeCamera: function () {
-    var map = this.state.map;
-    var counter = this.state.counter;
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
+            title: hospital,
+            icon: iconRoute,
+            animation: google.maps.Animation.DROP,
+            map: map
+        });
+        marker.addListener('click', function () {
+            infowindow.setContent(info);
+            infowindow.open(map, marker);
+        });
+        return marker;
+    },
+    //Function that returns latitude and longitude google coordinates
+    mapCenterLatLng: function () {
+        return new google.maps.LatLng(this.props.latitude, this.props.longitude);
+    },
+    updateMarkers: function (map, info, position, tickets, status) {
+        var mark = this.state.markers[position];
+        var iconRoute = "";
+        if (tickets == 0) {
+            if (status == "proceso") {
+                iconRoute = "icons/blue_proceso.png";
+            } else if (status == "referenciable") {
+                iconRoute = "icons/blue_refe.png";
+            } else if (status == "?" || status == "") {
+                iconRoute = "icons/blue_cues.png";
+            } else if (status == "NO") {
+                iconRoute = "icons/blue_norefe.png";
+            }
+        } else if (tickets <= 2) {
+            if (status == "proceso") {
+                iconRoute = "icons/yellow_proceso.png";
+            } else if (status == "referenciable") {
+                iconRoute = "icons/yellow_refe.png";
+            } else if (status == "?" || status == "") {
+                iconRoute = "icons/yellow_cues.png";
+            } else if (status == "NO") {
+                iconRoute = "icons/yellow_norefe.png";
+            }
+        } else if (tickets >= 3) {
+            if (status == "proceso") {
+                iconRoute = "icons/red_proceso.png";
+            } else if (status == "referenciable") {
+                iconRoute = "icons/red_refe.png";
+            } else if (status == "?" || status == "") {
+                iconRoute = "icons/red_cues.png";
+            } else if (status == "NO") {
+                iconRoute = "icons/red_norefe.png";
+            }
+        }
+        mark.setIcon(iconRoute);
+        mark.addListener('click', function () {
+            infowindow.setContent(info);
+            infowindow.open(map, mark);
+        });
+        return mark;
+    },
+    changeCamera: function () {
+        this.getUpdatedData();
+        var map = this.state.map;
+        var counter = this.state.counter;
 
-    map.setCenter(new google.maps.LatLng(this.state.positions[counter][0], this.state.positions[counter][1]));
-    map.setZoom(this.props.modifiedZoom);
+        map.setCenter(new google.maps.LatLng(this.state.positions[counter][0], this.state.positions[counter][1]));
+        map.setZoom(this.props.modifiedZoom);
 
-    counter++;
-    if (counter >= this.state.positions.length) {
-      this.setState({ counter: 0 });
-    } else {
-      this.setState({ counter: counter });
+        counter++;
+        if (counter >= this.state.positions.length) {
+            this.setState({ counter: 0 });
+        } else {
+            this.setState({ counter: counter });
+        }
+    },
+
+    //Render
+    render: function () {
+        return React.createElement('div', { className: 'map-gic' });
     }
-  },
-
-  //Render
-  render: function () {
-    setInterval(this.getUpdatedData, this.props.interval);
-    return React.createElement('div', { className: 'map-gic' });
-  }
 });
 
 module.exports = Maps;
 
-},{"react":225,"react-dom":2,"react-google-maps":39,"react-modal":56}],228:[function(require,module,exports){
+},{"react":225,"react-dom":2,"react-google-maps":39,"react-modal":56}],230:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Maps = require('./components/Maps.jsx');
@@ -25374,4 +25489,4 @@ var Box = require('./components/Box.jsx');
 ReactDOM.render(React.createElement(Maps, null), document.getElementById('main'));
 ReactDOM.render(React.createElement(Box, null), document.getElementById('floating'));
 
-},{"./components/Box.jsx":226,"./components/Maps.jsx":227,"react":225,"react-dom":2}]},{},[228]);
+},{"./components/Box.jsx":226,"./components/Maps.jsx":229,"react":225,"react-dom":2}]},{},[230]);
