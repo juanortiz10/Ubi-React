@@ -1,3 +1,22 @@
+a{
+  text-decoration: none;
+  color: black;
+  transition: all 0.5s ease;
+}
+a:visited{
+  color: black;
+}
+
+a:active{
+  color: black;
+}
+
+a:hover{
+  font-size: 1.1em;
+  background-color: #BBE1F2;
+  font-weight: bold;
+}
+
 .button {
   display: inline-block;
   cursor: pointer;
@@ -50,9 +69,9 @@ footer div{
   left: 0;
   position: absolute;
 /*  background-color: #03A9F4;*/
-  /*background-image: linear-gradient(-90deg, #969EC0, #009479);
+  /*background-image: linear-gradient(-90deg, #969EC0, #009479
 
-  background-image: linear-gradient(-90deg, #969EC0, #009479);*/
+  background-image: linear-gradient(-90deg, #969EC0, #009479*/
   background-image: linear-gradient(-90deg, #6CADEA, #007E94);
   -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
@@ -137,14 +156,50 @@ h5{
   font-family: 'Raleway', sans-serif;
 }
 
-img.colorBox, img.img_emoji{
+img.colorBox{
   width: 22px;
   height: 22px;
   margin-bottom: 6px;
-  cursor: help;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  opacity: 0.1;
+  filter: alpha(opacity=40);
+}
+img.colorBox_on{
+  width: 22px;
+  height: 22px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  opacity: 1;
+}
+img.img_emoji{
+  width: 22px;
+  height: 22px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  opacity: 0.32;
+  filter: alpha(opacity=40);
+ }
+img.img_emoji_on{
+  width: 22px;
+  height: 22px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  opacity: 1;
+}
+img.img_emoji:hover{
+   opacity: 1.2;
 }
 
+img.colorBox:hover{
+  opacity: 1;
+}
 
+img.emoji{
+  width: 45px;
+  height: 45px;
+}
 img#settings{
   position: fixed;
   z-index: 1;
@@ -191,6 +246,11 @@ select.selectConfigs{
   width: 200px;
 }
 
+ul{
+    -webkit-padding-start: 0px;
+    list-style: square inside url("../icons/ecareli.png");
+}
+
 @media (min-width: 1000px) and (max-width: 1130px) {
   div.container-fixed{
     margin-top: -40%;
@@ -205,7 +265,7 @@ select.selectConfigs{
 
 @media (min-width: 900px) and (max-width: 998px) {
   div.container-fixed{
-    margin-top: -50%;
+    margin-top: -51%;
   }
   div.container-fixed-emoji{
     margin-top: -40%;
@@ -227,7 +287,7 @@ select.selectConfigs{
   }
 }
 
-@media (min-width: 700px) and (max-width: 899px) {
+@media (min-width: 850px) and (max-width: 899px) {
   div.container-fixed{
     margin-top: -50%;
   }
@@ -239,14 +299,86 @@ select.selectConfigs{
   }
 }
 
-@media (min-width: 600px) and (max-width: 699px) {
+@media (min-width: 800px) and (max-width: 849px) {
   div.container-fixed{
-    margin-top: -60%;
+    margin-top: -50%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -38%;
+  }
+  div.container-button-fixed{
+    margin-top: -15%;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 800px) {
+  div.container-fixed{
+    margin-top: -59%;
   }
   div.container-fixed-emoji{
     margin-top: -45%;
   }
   div.container-button-fixed{
     margin-top: -22%;
+  }
+}
+
+@media (min-width: 670px) and (max-width: 699px) {
+  div.container-fixed{
+    margin-top: -58%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -44%;
+  }
+  div.container-button-fixed{
+    margin-top: -21%;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 669px) {
+  div.container-fixed{
+    margin-top: -65%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -49%;
+  }
+  div.container-button-fixed{
+    margin-top: -21%;
+  }
+}
+
+@media (min-width: 496px) and (max-width: 600px) {
+  div.container-fixed{
+    margin-top: -75%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -55%;
+  }
+  div.container-button-fixed{
+    margin-top: -21%;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 496px) {
+  div.container-fixed{
+    margin-top: -85%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -62%;
+  }
+  div.container-button-fixed{
+    margin-top: -21%;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 399px) {
+  div.container-fixed{
+    margin-top: -100%;
+  }
+  div.container-fixed-emoji{
+    margin-top: -72%;
+  }
+  div.container-button-fixed{
+    margin-top: -28%;
   }
 }

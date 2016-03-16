@@ -1,11 +1,11 @@
 var React = require('react');
 var PubSub = require('pubsub-js');
 
-var EmojiBox = React.createClass({
+var ClearBox = React.createClass({
   getInitialState: function(){
     return{
       emojiName: this.props.emoji,
-      clazz: 'img_emoji'
+      clazz: 'colorBox_on'
     };
   },
   onSet: function(){
@@ -16,11 +16,11 @@ var EmojiBox = React.createClass({
   },
   render: function(){
     return(
-      <div onClick={this.props.clickEmoji}>
+      <div onClick={this.props.clickAll}>
         <img className={this.state.clazz} src={this.props.route} data-toggle="tooltip" title={this.props.info}/>
       </div>
     );
   }
 });
 
-module.exports = EmojiBox;
+module.exports = ClearBox;

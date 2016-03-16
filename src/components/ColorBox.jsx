@@ -1,10 +1,27 @@
 var React = require('react');
+var PubSub = require('pubsub-js');
 
 var ColorBox = React.createClass({
+  getInitialState: function(){
+    return{
+       color: this.props.color,
+       clazz: 'colorBox',
+       status: 'off'
+    };
+  },
+  changeClass: function(newClass){
+    this.setState({clazz: newClass});
+  },
+  onSet: function(){
+    PubSub.publish('buttons', this.props.code);
+  },
+  /*clickColor: function(){
+
+  },*/
   render: function(){
     return(
-      <div>
-        <img src={this.props.route} data-toggle="tooltip" title={this.props.info} className="colorBox"/>
+      <div onClick={this.props.clickColor}>
+        <img src={this.props.route} data-toggle="tooltip" title={this.props.info} className={this.state.clazz}/>
       </div>
     );
   }

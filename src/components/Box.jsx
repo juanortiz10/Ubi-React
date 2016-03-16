@@ -5,6 +5,7 @@ var selectValueTran;
 var selectValueMin = "0";
 var ColorBox = require('./ColorBox.jsx');
 var EmojiBox = require('./EmojiBox.jsx');
+var ClearBox = require('./ClearBox.jsx');
 
 if( document.cookie.replace(/(?:(?:^|.*;\s*)transitions\s*\=\s*([^;]*).*$)|^.*$/, "$1") == "ON"){
     transitionsConfig = "ON";
@@ -62,6 +63,94 @@ var Box = React.createClass({
     }
     this.setState({minutesValue: value});
   },
+  yellowClick:function(){
+      this.refs.yellow_color.onSet();
+      this.refs.yellow_color.changeClass("colorBox_on");
+      this.refs.red_color.changeClass("colorBox");
+      this.refs.blue_color.changeClass("colorBox");
+      this.refs.cues_emoji.changeClass("img_emoji");
+      this.refs.norefe_emoji.changeClass("img_emoji");
+      this.refs.proceso_emoji.changeClass("img_emoji");
+      this.refs.refe_emoji.changeClass("img_emoji");
+      this.refs.clear.changeClass("colorBox");
+  },
+  blueClick:function(){
+      this.refs.blue_color.onSet();
+      this.refs.yellow_color.changeClass("colorBox");
+      this.refs.red_color.changeClass("colorBox");
+      this.refs.blue_color.changeClass("colorBox_on");
+      this.refs.cues_emoji.changeClass("img_emoji");
+      this.refs.norefe_emoji.changeClass("img_emoji");
+      this.refs.proceso_emoji.changeClass("img_emoji");
+      this.refs.refe_emoji.changeClass("img_emoji");
+      this.refs.clear.changeClass("colorBox");
+  },
+  redClick: function(){
+      this.refs.red_color.onSet();
+      this.refs.yellow_color.changeClass("colorBox");
+      this.refs.red_color.changeClass("colorBox_on");
+      this.refs.blue_color.changeClass("colorBox");
+      this.refs.cues_emoji.changeClass("img_emoji");
+      this.refs.norefe_emoji.changeClass("img_emoji");
+      this.refs.proceso_emoji.changeClass("img_emoji");
+      this.refs.refe_emoji.changeClass("img_emoji");
+      this.refs.clear.changeClass("colorBox");
+  },
+  cuesClick: function(){
+      this.refs.cues_emoji.onSet();
+      this.refs.cues_emoji.changeClass("img_emoji_on");
+      this.refs.norefe_emoji.changeClass("img_emoji");
+      this.refs.proceso_emoji.changeClass("img_emoji");
+      this.refs.refe_emoji.changeClass("img_emoji");
+      this.refs.yellow_color.changeClass("colorBox");
+      this.refs.red_color.changeClass("colorBox");
+      this.refs.blue_color.changeClass("colorBox");
+      this.refs.clear.changeClass("colorBox");
+  },
+  norefeClick: function(){
+      this.refs.norefe_emoji.onSet();
+      this.refs.cues_emoji.changeClass("img_emoji");
+      this.refs.norefe_emoji.changeClass("img_emoji_on");
+      this.refs.proceso_emoji.changeClass("img_emoji");
+      this.refs.refe_emoji.changeClass("img_emoji");
+      this.refs.yellow_color.changeClass("colorBox");
+      this.refs.red_color.changeClass("colorBox");
+      this.refs.blue_color.changeClass("colorBox");
+      this.refs.clear.changeClass("colorBox");
+  },
+  procesoClick: function(){
+      this.refs.proceso_emoji.onSet();
+      this.refs.cues_emoji.changeClass("img_emoji");
+      this.refs.norefe_emoji.changeClass("img_emoji");
+      this.refs.proceso_emoji.changeClass("img_emoji_on");
+      this.refs.refe_emoji.changeClass("img_emoji");
+      this.refs.yellow_color.changeClass("colorBox");
+      this.refs.red_color.changeClass("colorBox");
+      this.refs.blue_color.changeClass("colorBox");
+      this.refs.clear.changeClass("colorBox");
+  },
+  refeClick: function(){
+      this.refs.refe_emoji.onSet();
+      this.refs.cues_emoji.changeClass("img_emoji");
+      this.refs.norefe_emoji.changeClass("img_emoji");
+      this.refs.proceso_emoji.changeClass("img_emoji");
+      this.refs.refe_emoji.changeClass("img_emoji_on");
+      this.refs.yellow_color.changeClass("colorBox");
+      this.refs.red_color.changeClass("colorBox");
+      this.refs.blue_color.changeClass("colorBox");
+      this.refs.clear.changeClass("colorBox");
+  },
+  clearClick: function(){
+      this.refs.clear.onSet();
+      this.refs.cues_emoji.changeClass("img_emoji");
+      this.refs.norefe_emoji.changeClass("img_emoji");
+      this.refs.proceso_emoji.changeClass("img_emoji");
+      this.refs.refe_emoji.changeClass("img_emoji");
+      this.refs.yellow_color.changeClass("colorBox");
+      this.refs.red_color.changeClass("colorBox");
+      this.refs.blue_color.changeClass("colorBox");
+      this.refs.clear.changeClass("colorBox_on");
+  },
   render: function(){
     var style= {
       fontSize : '1.6em',
@@ -71,15 +160,56 @@ var Box = React.createClass({
     return(
       <div>
         <div className="container-fixed">
-          <ColorBox route="imgs/yellow.jpg" info="2 ó mas Tickets"/>
-          <ColorBox route="imgs/red.png" info="Mas de 3 Tickets"/>
-          <ColorBox route="imgs/blue.png" info="Sin Tickets"/>
+          <ColorBox
+            route="imgs/yellow.jpg"
+            info="2 ó mas Tickets"
+            code="yellow"
+            ref="yellow_color"
+            clickColor={this.yellowClick}/>
+          <ColorBox
+            route="imgs/red.png"
+            info="Mas de 3 Tickets"
+            code="red"
+            ref="red_color"
+            clickColor={this.redClick}/>
+          <ColorBox
+            route="imgs/blue.png"
+            info="Sin Tickets"
+            code="blue"
+            ref="blue_color"
+            clickColor={this.blueClick}/>
         </div>
         <div className="container-fixed-emoji">
-          <EmojiBox route="icons/cues.png" info="Sin Información"/>
-          <EmojiBox route="icons/norefe.png" info="No Referenciable"/>
-          <EmojiBox route="icons/proceso.png" info="En Proceso"/>
-          <EmojiBox route="icons/refe.png" info="Referenciable"/>
+          <EmojiBox
+            route="icons/cues.png"
+            info="Sin Información"
+            code="cues"
+            ref="cues_emoji"
+            clickEmoji={this.cuesClick}/>
+          <EmojiBox
+            route="icons/norefe.png"
+            info="No Referenciable"
+            code="norefe"
+            ref="norefe_emoji"
+            clickEmoji={this.norefeClick}/>
+          <EmojiBox
+            route="icons/proceso.png"
+            info="En Proceso"
+            code="proceso"
+            ref="proceso_emoji"
+            clickEmoji={this.procesoClick}/>
+          <EmojiBox
+            route="icons/refe.png"
+            info="Referenciable"
+            code="refe"
+            ref="refe_emoji"
+            clickEmoji={this.refeClick}/>
+          <ClearBox
+            route="icons/cross.png"
+            info="Clear"
+            code="all"
+            ref="clear"
+            clickAll={this.clearClick}/>
         </div>
         <div className="container-button-fixed">
           <i className="fa fa-cog" style={style} onClick={this.openModal}></i>
@@ -90,12 +220,18 @@ var Box = React.createClass({
             <h2 id="configTitle">Configuración</h2>
             <div className="containerModal">
               <h3>Transición</h3>
-              <select className="selectConfigs" onChange={this.onChangeTransitions} defaultValue={this.state.selectStatusTransitions}>
+              <select
+                  className="selectConfigs"
+                  onChange={this.onChangeTransitions}
+                  defaultValue={this.state.selectStatusTransitions}>
                 <option value="0">Desactivada</option>
                 <option value="1">Activada</option>
               </select>
               <h3>Intervalo</h3>
-              <select className="selectConfigs" onChange={this.onChangeMinutes} defaultValue={this.state.selectStatusMinutes}>
+              <select
+                  className="selectConfigs"
+                  onChange={this.onChangeMinutes}
+                  defaultValue={this.state.selectStatusMinutes}>
                 <option value="0">1 Minuto</option>
                 <option value="1">5 Minutos</option>
                 <option value="2">10 Minutos</option>
