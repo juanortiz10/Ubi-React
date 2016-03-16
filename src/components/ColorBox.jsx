@@ -6,11 +6,12 @@ var ColorBox = React.createClass({
     return{
        color: this.props.color,
        clazz: 'colorBox',
-       status: 'off'
+       status: 'off',
+       isDisabled: false
     };
   },
-  changeClass: function(newClass){
-    this.setState({clazz: newClass});
+  changeClass: function(newClass, disabled){
+      this.setState({clazz: newClass, isDisabled: disabled});
   },
   onSet: function(){
     PubSub.publish('buttons', this.props.code);
@@ -21,7 +22,7 @@ var ColorBox = React.createClass({
   render: function(){
     return(
       <div onClick={this.props.clickColor}>
-        <img src={this.props.route} data-toggle="tooltip" title={this.props.info} className={this.state.clazz}/>
+        <img src={this.props.route} data-toggle="tooltip" title={this.props.info} className={this.state.clazz} />
       </div>
     );
   }

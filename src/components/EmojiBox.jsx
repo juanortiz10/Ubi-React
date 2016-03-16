@@ -5,14 +5,15 @@ var EmojiBox = React.createClass({
   getInitialState: function(){
     return{
       emojiName: this.props.emoji,
-      clazz: 'img_emoji'
+      clazz: 'img_emoji',
+      isDisabled: false
     };
   },
   onSet: function(){
     PubSub.publish('buttons', this.props.code);
   },
-  changeClass: function(newClass){
-    this.setState({clazz: newClass});
+  changeClass: function(newClass, disabled){
+      this.setState({clazz: newClass, isDisabled: disabled});
   },
   render: function(){
     return(

@@ -172,7 +172,7 @@ var Maps = React.createClass({
                   info += "<ul>";
 
                 for(var j = 0; j < result[i].indicator_count; j++){
-                    info += "<li><a href="+result[i].indicator_detail[j].url+">"+result[i].indicator_detail[j].description+"</a></li>"
+                    info += "<li><a href="+result[i].indicator_detail[j].url+" target='_blank'>"+result[i].indicator_detail[j].description+"</a></li>"
                 }
 
               info += "</ul>";

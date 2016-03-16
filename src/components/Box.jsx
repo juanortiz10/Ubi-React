@@ -64,92 +64,108 @@ var Box = React.createClass({
     this.setState({minutesValue: value});
   },
   yellowClick:function(){
-      this.refs.yellow_color.onSet();
-      this.refs.yellow_color.changeClass("colorBox_on");
-      this.refs.red_color.changeClass("colorBox");
-      this.refs.blue_color.changeClass("colorBox");
-      this.refs.cues_emoji.changeClass("img_emoji");
-      this.refs.norefe_emoji.changeClass("img_emoji");
-      this.refs.proceso_emoji.changeClass("img_emoji");
-      this.refs.refe_emoji.changeClass("img_emoji");
-      this.refs.clear.changeClass("colorBox");
+      if(!this.refs.yellow_color.state.isDisabled){
+          this.refs.yellow_color.onSet();
+          this.refs.yellow_color.changeClass("colorBox_on",true);
+          this.refs.red_color.changeClass("colorBox");
+          this.refs.blue_color.changeClass("colorBox");
+          this.refs.cues_emoji.changeClass("img_emoji");
+          this.refs.norefe_emoji.changeClass("img_emoji");
+          this.refs.proceso_emoji.changeClass("img_emoji");
+          this.refs.refe_emoji.changeClass("img_emoji");
+          this.refs.clear.changeClass("colorBox");
+      }
   },
   blueClick:function(){
-      this.refs.blue_color.onSet();
-      this.refs.yellow_color.changeClass("colorBox");
-      this.refs.red_color.changeClass("colorBox");
-      this.refs.blue_color.changeClass("colorBox_on");
-      this.refs.cues_emoji.changeClass("img_emoji");
-      this.refs.norefe_emoji.changeClass("img_emoji");
-      this.refs.proceso_emoji.changeClass("img_emoji");
-      this.refs.refe_emoji.changeClass("img_emoji");
-      this.refs.clear.changeClass("colorBox");
+      if(!this.refs.blue_color.state.isDisabled){
+        this.refs.blue_color.onSet();
+        this.refs.yellow_color.changeClass("colorBox");
+        this.refs.red_color.changeClass("colorBox");
+        this.refs.blue_color.changeClass("colorBox_on",true);
+        this.refs.cues_emoji.changeClass("img_emoji");
+        this.refs.norefe_emoji.changeClass("img_emoji");
+        this.refs.proceso_emoji.changeClass("img_emoji");
+        this.refs.refe_emoji.changeClass("img_emoji");
+        this.refs.clear.changeClass("colorBox");
+    }
   },
   redClick: function(){
-      this.refs.red_color.onSet();
-      this.refs.yellow_color.changeClass("colorBox");
-      this.refs.red_color.changeClass("colorBox_on");
-      this.refs.blue_color.changeClass("colorBox");
-      this.refs.cues_emoji.changeClass("img_emoji");
-      this.refs.norefe_emoji.changeClass("img_emoji");
-      this.refs.proceso_emoji.changeClass("img_emoji");
-      this.refs.refe_emoji.changeClass("img_emoji");
-      this.refs.clear.changeClass("colorBox");
+    if(!this.refs.red_color.state.isDisabled){
+        this.refs.red_color.onSet();
+        this.refs.yellow_color.changeClass("colorBox");
+        this.refs.red_color.changeClass("colorBox_on",true);
+        this.refs.blue_color.changeClass("colorBox");
+        this.refs.cues_emoji.changeClass("img_emoji");
+        this.refs.norefe_emoji.changeClass("img_emoji");
+        this.refs.proceso_emoji.changeClass("img_emoji");
+        this.refs.refe_emoji.changeClass("img_emoji");
+        this.refs.clear.changeClass("colorBox");
+    }
   },
   cuesClick: function(){
-      this.refs.cues_emoji.onSet();
-      this.refs.cues_emoji.changeClass("img_emoji_on");
-      this.refs.norefe_emoji.changeClass("img_emoji");
-      this.refs.proceso_emoji.changeClass("img_emoji");
-      this.refs.refe_emoji.changeClass("img_emoji");
-      this.refs.yellow_color.changeClass("colorBox");
-      this.refs.red_color.changeClass("colorBox");
-      this.refs.blue_color.changeClass("colorBox");
-      this.refs.clear.changeClass("colorBox");
+      if(!this.refs.cues_emoji.state.isDisabled){
+          this.refs.cues_emoji.onSet();
+          this.refs.cues_emoji.changeClass("img_emoji_on",true);
+          this.refs.norefe_emoji.changeClass("img_emoji");
+          this.refs.proceso_emoji.changeClass("img_emoji");
+          this.refs.refe_emoji.changeClass("img_emoji");
+          this.refs.yellow_color.changeClass("colorBox");
+          this.refs.red_color.changeClass("colorBox");
+          this.refs.blue_color.changeClass("colorBox");
+          this.refs.clear.changeClass("colorBox");
+      }
   },
   norefeClick: function(){
-      this.refs.norefe_emoji.onSet();
-      this.refs.cues_emoji.changeClass("img_emoji");
-      this.refs.norefe_emoji.changeClass("img_emoji_on");
-      this.refs.proceso_emoji.changeClass("img_emoji");
-      this.refs.refe_emoji.changeClass("img_emoji");
-      this.refs.yellow_color.changeClass("colorBox");
-      this.refs.red_color.changeClass("colorBox");
-      this.refs.blue_color.changeClass("colorBox");
-      this.refs.clear.changeClass("colorBox");
+    if(!this.refs.norefe_emoji.state.isDisabled){
+        this.refs.norefe_emoji.onSet();
+        this.refs.cues_emoji.changeClass("img_emoji");
+        this.refs.norefe_emoji.changeClass("img_emoji_on",true);
+        this.refs.proceso_emoji.changeClass("img_emoji");
+        this.refs.refe_emoji.changeClass("img_emoji");
+        this.refs.yellow_color.changeClass("colorBox");
+        this.refs.red_color.changeClass("colorBox");
+        this.refs.blue_color.changeClass("colorBox");
+        this.refs.clear.changeClass("colorBox");
+    }
   },
   procesoClick: function(){
-      this.refs.proceso_emoji.onSet();
-      this.refs.cues_emoji.changeClass("img_emoji");
-      this.refs.norefe_emoji.changeClass("img_emoji");
-      this.refs.proceso_emoji.changeClass("img_emoji_on");
-      this.refs.refe_emoji.changeClass("img_emoji");
-      this.refs.yellow_color.changeClass("colorBox");
-      this.refs.red_color.changeClass("colorBox");
-      this.refs.blue_color.changeClass("colorBox");
-      this.refs.clear.changeClass("colorBox");
+    if(!this.refs.proceso_emoji.state.isDisabled){
+        this.refs.proceso_emoji.onSet();
+        this.refs.cues_emoji.changeClass("img_emoji");
+        this.refs.norefe_emoji.changeClass("img_emoji");
+        this.refs.proceso_emoji.changeClass("img_emoji_on", true);
+        this.refs.refe_emoji.changeClass("img_emoji");
+        this.refs.yellow_color.changeClass("colorBox");
+        this.refs.red_color.changeClass("colorBox");
+        this.refs.blue_color.changeClass("colorBox");
+        this.refs.clear.changeClass("colorBox");
+    }
   },
   refeClick: function(){
-      this.refs.refe_emoji.onSet();
-      this.refs.cues_emoji.changeClass("img_emoji");
-      this.refs.norefe_emoji.changeClass("img_emoji");
-      this.refs.proceso_emoji.changeClass("img_emoji");
-      this.refs.refe_emoji.changeClass("img_emoji_on");
-      this.refs.yellow_color.changeClass("colorBox");
-      this.refs.red_color.changeClass("colorBox");
-      this.refs.blue_color.changeClass("colorBox");
-      this.refs.clear.changeClass("colorBox");
+    if(!this.refs.refe_emoji.state.isDisabled){
+        this.refs.refe_emoji.onSet();
+        this.refs.cues_emoji.changeClass("img_emoji");
+        this.refs.norefe_emoji.changeClass("img_emoji");
+        this.refs.proceso_emoji.changeClass("img_emoji");
+        this.refs.refe_emoji.changeClass("img_emoji_on", true);
+        this.refs.yellow_color.changeClass("colorBox");
+        this.refs.red_color.changeClass("colorBox");
+        this.refs.blue_color.changeClass("colorBox");
+        this.refs.clear.changeClass("colorBox");
+    }
   },
   clearClick: function(){
-      this.refs.clear.onSet();
-      this.refs.cues_emoji.changeClass("img_emoji");
-      this.refs.norefe_emoji.changeClass("img_emoji");
-      this.refs.proceso_emoji.changeClass("img_emoji");
-      this.refs.refe_emoji.changeClass("img_emoji");
-      this.refs.yellow_color.changeClass("colorBox");
-      this.refs.red_color.changeClass("colorBox");
-      this.refs.blue_color.changeClass("colorBox");
-      this.refs.clear.changeClass("colorBox_on");
+    if(!this.refs.clear.state.isDisabled){
+        this.refs.clear.onSet();
+        this.refs.cues_emoji.changeClass("img_emoji");
+        this.refs.norefe_emoji.changeClass("img_emoji");
+        this.refs.proceso_emoji.changeClass("img_emoji");
+        this.refs.refe_emoji.changeClass("img_emoji");
+        this.refs.yellow_color.changeClass("colorBox");
+        this.refs.red_color.changeClass("colorBox");
+        this.refs.blue_color.changeClass("colorBox");
+        this.refs.clear.changeClass("colorBox_on", true);
+      }
   },
   render: function(){
     var style= {
@@ -160,6 +176,12 @@ var Box = React.createClass({
     return(
       <div>
         <div className="container-fixed">
+        <ClearBox
+          route="icons/cross.png"
+          info="Clear"
+          code="all"
+          ref="clear"
+          clickAll={this.clearClick}/>
           <ColorBox
             route="imgs/yellow.jpg"
             info="2 ó mas Tickets"
@@ -178,8 +200,6 @@ var Box = React.createClass({
             code="blue"
             ref="blue_color"
             clickColor={this.blueClick}/>
-        </div>
-        <div className="container-fixed-emoji">
           <EmojiBox
             route="icons/cues.png"
             info="Sin Información"
@@ -204,12 +224,6 @@ var Box = React.createClass({
             code="refe"
             ref="refe_emoji"
             clickEmoji={this.refeClick}/>
-          <ClearBox
-            route="icons/cross.png"
-            info="Clear"
-            code="all"
-            ref="clear"
-            clickAll={this.clearClick}/>
         </div>
         <div className="container-button-fixed">
           <i className="fa fa-cog" style={style} onClick={this.openModal}></i>
