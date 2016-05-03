@@ -25824,6 +25824,7 @@ var Maps = React.createClass({
                 var routeToEmoji = this.getHappiness(result[i].overall_status);
 
                 var info = "<h2>" + result[i].name + "<img src='" + routeToEmoji + "' class='emoji'/></h2>";
+                console.log(routeToEmoji);
                 info += "<p><h5>Customer Success: </h5>" + result[i].overall_status + " </p> ";
                 if (!result[i].address.includes("-")) info += "<p><h5>Dirección:</h5> " + result[i].address + " </p> ";
                 if (!result[i].contact.includes("-")) info += "<p><h5>Contacto: </h5>" + result[i].contact + " </p> ";
@@ -25920,6 +25921,9 @@ var Maps = React.createClass({
         var map = this.state.map;
         var counter = this.state.counter;
 
+        var marks = this.state.markers;
+        google.maps.event.trigger(marks[counter], 'click');
+
         map.setCenter(new google.maps.LatLng(this.state.positions[counter][0], this.state.positions[counter][1]));
         map.setZoom(this.props.modifiedZoom);
 
@@ -25932,13 +25936,13 @@ var Maps = React.createClass({
     },
     getHappiness: function (status) {
         var routeToEmoji = "";
-        if (status.includes("?")) {
+        if (status.includes("Satisfecho")) {
             routeToEmoji = "icons/cues.png";
-        } else if (status.includes("proceso")) {
+        } else if (status.includes("En Proceso")) {
             routeToEmoji = "icons/proceso.png";
-        } else if (status.includes("NO")) {
+        } else if (status.includes("No Referenciable")) {
             routeToEmoji = "icons/norefe.png";
-        } else if (status.includes("referenciable")) {
+        } else if (status.includes("Referenciable")) {
             routeToEmoji = "icons/refe.png";
         }
         return routeToEmoji;
