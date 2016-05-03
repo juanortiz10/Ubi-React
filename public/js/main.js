@@ -25735,7 +25735,7 @@ var Maps = React.createClass({
             info: '',
             counter: 0,
             map: null,
-            source: 'http://148.244.75.41:7080/points',
+            source: 'http://148.244.75.34:7080/points',
             positions: [],
             modalIsOpen: false,
             moveCamera: isTransition,
@@ -25757,24 +25757,22 @@ var Maps = React.createClass({
         var pubsub_token = PubSub.subscribe('buttons', function (topic, type) {
             var url;
             if (type == "yellow") {
-                //http://192.168.11.31:7080/points/
-                url = "http://148.244.75.41:7080/points/?indicator_count=2&indicator_count_2=1&q=lte_gte";
+                url = "http://148.244.75.34:7080/points/?indicator_count=2&q=e";
             } else if (type == "red") {
-                url = "http://148.244.75.41:7080/points/?indicator_count=3&q=gte";
+                url = "http://148.244.75.34:7080/points/?indicator_count=3&q=gte";
             } else if (type == "blue") {
-                url = "http://148.244.75.41:7080/points/?indicator_count=0&q=e";
+                url = "http://148.244.75.34:7080/points/?indicator_count=0&q=e";
             } else if (type == "norefe") {
-                url = "http://148.244.75.41:7080/points/?overall_status=NO";
+                url = "http://148.244.75.34:7080/points/?overall_status=No Referenciable";
             } else if (type == "refe") {
-                url = "http://148.244.75.41:7080/points/?overall_status=referenciable";
+                url = "http://148.244.75.34:7080/points/?overall_status=Referenciable";
             } else if (type == "cues") {
-                url = "http://192.168.11.31:7080/points/?overall_status=?";
+                url = "http://148.244.75.34:7080/points/?overall_status=Satisfecho";
             } else if (type == "proceso") {
-                url = "http://192.168.11.31:7080/points/?overall_status=proceso";
+                url = "http://148.244.75.34:7080/points/?overall_status=En Proceso";
             } else if (type == "all") {
-                url = "http://192.168.11.31:7080/points";
+                url = "http://148.244.75.34:7080/points";
             }
-            //TODO
             this.clearMarkers();
             this.setState({ source: url });
             this.getData();
